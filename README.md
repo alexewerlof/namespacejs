@@ -1,6 +1,6 @@
 # Intro
 
-Namespacejs is a simple and quick function for defining namespaces in Javascript.
+Namespacejs is a simple and quick function for defining namespaces in Javascript. It can be used in Nodejs or Browsers.
 
 ```Javascript
 namespace( 'com.userpixel.test' ).hello = function ( str ) {
@@ -12,7 +12,7 @@ com.userpixel.test.hello( 'world' ); //returns 'Hello world!'
 
 #How does it work?
 
-The namespace can be
+The idea is simple: every namespace is an object. The root of the namespaces is the global object.
 
 #Tests
 
