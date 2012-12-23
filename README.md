@@ -2,10 +2,8 @@ Intro
 =====
 
 Namespacejs is a simple and quick function for defining namespaces in Javascript. It can be used in Nodejs or Browsers.
-It is written in [strict mode][2] ("use strict") with fallback to non-strict mode. It has an intuitive syntax and can
-be easily added current projects.
-
-[2]: https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Functions_and_function_scope/Strict_mode
+It has an intuitive syntax and can be easily added current projects. The whole library is just one function which is
+under 1KB when [minified][6].
 
 ```Javascript
 namespace( 'com.userpixel.example1' ).hello = function ( str ) {
@@ -24,7 +22,8 @@ hello( 'world' ); //fails because hello() doesn't exist in the global object. It
 
 ## Which files do I need?
 
-From all files in this repository you only need one to use Namespacejs in production: [src/namespace.js](hanifbbz/namespacejs/src/namespace.js).
+From all files in this repository you only need one to use Namespacejs in production: [src -> namespace.js][3]. There is
+a [minified version][6] too.
 This file contains a single function named **namespace()**. You can just copy that to your code and use it.
 
 ***
@@ -66,8 +65,6 @@ Of course the [actual algorithm][3] is more sophisticated. It parses the string 
 to find all the identifiers in the namespace and then creates variables for each of them if necessary. Therefore all the
 identifiers of the namespace should be valid in Javascript. For example:
 
-[3]: https://github.com/hanifbbz/namespacejs/blob/master/src/namespace.js
-
 namespace( '' ); //valid: returns the global object
 namespace( 'a' ); //valid: returns object a in global object
 namespace( 'abc.def' );//valid
@@ -96,6 +93,12 @@ can either be a namespace or a function, not both.
 Tests
 =====
 
-[QUnit](http://www.qunit.com) is used for testing Namespacejs. Please take a look at the [test.js][4] file to find out to learn more.
+[QUnit][5] is used for testing Namespacejs. Please take a look at the [test.js][4] file to find out to learn more.
+You can [run the tests][7] in your browser too.
 
+[2]: https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Functions_and_function_scope/Strict_mode
+[3]: https://github.com/hanifbbz/namespacejs/blob/master/src/namespace.js
 [4]: https://github.com/hanifbbz/namespacejs/blob/master/test/test.js
+[5]: http://www.qunit.com
+[6]: https://github.com/hanifbbz/namespacejs/blob/master/src/namespace.min.js
+[7]: http://htmlpreview.github.com/?https://github.com/hanifbbz/namespacejs/blob/master/test/test.html
