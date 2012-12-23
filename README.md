@@ -1,6 +1,7 @@
 # Intro
 
 Namespacejs is a simple and quick function for defining namespaces in Javascript. It can be used in Nodejs or Browsers.
+It is written in [strict mode](https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Functions_and_function_scope/Strict_mode) ("use strict") with fallback to non-strict mode.
 
 ```Javascript
 namespace( 'com.userpixel.test' ).hello = function ( str ) {
