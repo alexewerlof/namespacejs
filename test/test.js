@@ -400,9 +400,9 @@ test( 'root object in global', function () {
 });
 
 test( 'example', function () {
-    namespace( 'com.userpixel.test' ).hello = function ( str ) {
+    namespace( 'com.userpixel.example' ).hello = function ( str ) {
         return 'Hello ' + str + '!';
     }
 
-    equal( com.userpixel.test.hello( 'world' ), 'Hello world!', 'The hello world example works!' );
+    equal( com.userpixel.example.hello( 'world' ), 'Hello world!', 'The hello world example works!' );
 })

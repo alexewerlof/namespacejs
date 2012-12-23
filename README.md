@@ -2,27 +2,73 @@ Intro
 =====
 
 Namespacejs is a simple and quick function for defining namespaces in Javascript. It can be used in Nodejs or Browsers.
-It is written in [strict mode][2] ("use strict") with fallback to non-strict mode.
+It is written in [strict mode][2] ("use strict") with fallback to non-strict mode. It has an intuitive syntax and can
+be easily added current projects.
 
 [2]: https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Functions_and_function_scope/Strict_mode
 
 ```Javascript
-namespace( 'com.userpixel.test' ).hello = function ( str ) {
+namespace( 'com.userpixel.example' ).hello = function ( str ) {
     return 'Hello ' + str + '!';
 }
 
-com.userpixel.test.hello( 'world' ); //returns 'Hello world!'
+com.userpixel.example.hello( 'world' ); //returns 'Hello world!'
 ```
+
+## Which files do I need?
+
+From all files in this repository you only need one to use Namespacejs in production: [src/namespace.js](hanifbbz/namespacejs/src/namespace.js).
+This file contains a single function named **namespace()**. You can just copy that to your code and use it.
+
 ***
 
 How does it work?
 =================
 
-The idea is simple: every namespace is an object. The root of the namespaces is the global object.
+The idea is simple: every namespace is an object. So you can write codes that look like packages in Java. For example:
+
+    var hello = com.userpixel.example.hello( 'world' );
+
+For this namespace a series of nested objects are created:
+
+```Javascript
+var org = {
+    userpixel = {
+        example = {
+            hello : function () ( str ) {
+                return 'Hello ' + str + '!';
+            }
+        }
+    }
+}
+```
+
+If any of these objects exist, they will be used instead of creating a new one. Therefore, it is possible to add new
+functions to an existing namespace. The algorithm for namespace object creation looks something like this:
+
+```Javascript
+//assuming that the code is running in the browser, global object is window
+org = typeof window.['org'] === 'object' ? org || {}
+org.userpixel = typeof org.userpixel === 'object' ? org.userpixel || {}
+org.userpisel.test = typeof org.userpixel.test === 'object' ? org.userpixel.test || {}
+```
+**Note:** if any of the names in the object hierarcy exists but isn't an object, it will be replaced silently with an empty object.
+For example:
+
+```Javascript
+namespace( 'com.userpixel.example' ).hello = function ( str ) {
+    return 'Hello ' + str + '!';
+}
+namespace( 'com.userpixel.example.hello' ).swedish = function ( str ) {
+    return 'Hej ' + str + '!';
+}
+```
+The reason is simple: all the names in the namespace string must be objects. Just like java, a string like
+`org.userpixel.example.hello` can either be a namespace or a function, not both.
 
 ***
 
 Tests
 =====
 
-[QUnit](http://www.qunit.com) is used for testing Namespacejs. Please take a look at the [test.js](/test/test.js) file to find out to learn more.
+[QUnit](http://www.qunit.com) is used for testing Namespacejs. Please take a look at the [test.js](hanifbbz/namespacejs/test/test.js) file to find out to learn more.
