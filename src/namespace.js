@@ -10,7 +10,7 @@
  * @throws string: if the nsString is not of type string or an id cannot be identified
  * @return an object that can be used for binding methods
  */
-function namespace ( nsString ) {
+function namespace ( nsString, alternativeRoot ) {
     //"use strict";
 	//nsString should be a string
 	if ( typeof nsString !== 'string' ) {
@@ -22,21 +22,24 @@ function namespace ( nsString ) {
     }
 	//go through the structure of the namespace and make the necessary objects.
     var parts = nsString.split('.');
-    //the root object is "this" which is the global object because this function is not supposed to be called with "new" or as a part of another object
-    var currParent = this;
+    //the root object is "this" which is the global object because this function is not supposed to be called with "new"
+    // or as a part of another object. The user can override it with an alternative root object
+    var currParent = typeof alternativeRoot === 'object' ? alternativeRoot : this;
 	//now go through all parts of the namespace and make sure the hierarchy exists
     for ( var i = 0; i < parts.length; i++ ) {
         var part = parts[i];
         if ( part.length === 0 ) {
             continue;
         }
+        //the first character can only be alphabetic, dollar sign or underscore
         if ( ! /^[a-z\$\_]/i.test( part.charAt(0) ) ) {
             throw 'Identifier should start with a letter, underscore or dollar sign: "' + part + '"';
         }
+        //if the above check passed, just check that the id is only comprised of alphanumeric, dollar and underscore characters
         if ( ! /^[\w\$\_]+$/.test( part ) ) {
         	throw 'Invalid identifier: "' + part + '"';
         }
-        //if there is no such object, create it
+        //so it is a valid id. If there is no such object, create it (even if this variable exists but isn't an object)
         if ( ( typeof currParent[part] !== 'object' ) || ( currParent[part] === null ) ) {
 			currParent[part] = {};
 		}

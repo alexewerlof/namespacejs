@@ -60,6 +60,8 @@ org.userpixel = typeof org.userpixel === 'object' ? org.userpixel || {}
 org.userpisel.test = typeof org.userpixel.test === 'object' ? org.userpixel.test || {}
 ```
 
+To put is simply, the task for namespace() function is to make sure this chain of names exists and is comprised of objects.
+After a call to namespace() function, you can simply use the namespace without needing to call the function again.
 Of course the [actual algorithm][3] is more sophisticated. It parses the string trying
 to find all the identifiers in the namespace and then creates variables for each of them if necessary. Therefore all the
 identifiers of the namespace should be valid in Javascript. For example:
