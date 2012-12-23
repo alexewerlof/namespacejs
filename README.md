@@ -8,11 +8,18 @@ be easily added current projects.
 [2]: https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Functions_and_function_scope/Strict_mode
 
 ```Javascript
-namespace( 'com.userpixel.example' ).hello = function ( str ) {
+namespace( 'com.userpixel.example1' ).hello = function ( str ) {
     return 'Hello ' + str + '!';
 }
 
-com.userpixel.example.hello( 'world' ); //returns 'Hello world!'
+namespace( 'com.userpixel.example2' ).hello = function ( str ) {
+    return 'Hej ' + str + '!';
+}
+
+com.userpixel.example1.hello( 'world' ); //returns 'Hello world!'
+com.userpixel.example2.hello( 'värld' ); //returns 'Hej värld!'
+
+hello( 'world' ); //fails because hello() doesn't exist in the global object. It's in its own namespace.
 ```
 
 ## Which files do I need?
@@ -29,7 +36,7 @@ The idea is simple: every namespace is an object. So you can write codes that lo
 
     var hello = com.userpixel.example.hello( 'world' );
 
-For this namespace a series of nested objects are created:
+For this namespace a series of nested objects are created (if necessary):
 
 ```Javascript
 var org = {
@@ -52,6 +59,20 @@ org = typeof window.['org'] === 'object' ? org || {}
 org.userpixel = typeof org.userpixel === 'object' ? org.userpixel || {}
 org.userpisel.test = typeof org.userpixel.test === 'object' ? org.userpixel.test || {}
 ```
+
+Of course the [actual algorithm](/hanifbbz/namespacejs/src/namespace.js) is more sophisticated. It parses the string trying
+to find all the identifiers in the namespace and then creates variables for each of them if necessary. Therefore all the
+identifiers of the namespace should be valid in Javascript. For example:
+
+namespace( '' ); //valid: returns the global object
+namespace( 'a' ); //valid: returns object a in global object
+namespace( 'abc.def' );//valid
+namespace( '1bc.def' );//invalid: 1bc is not a valid Javascript identifier
+namespace( '&' );//invalid id
+namespace( '$' );//a valid id but keep in mind that it will replace the global $ with an object if it isn't
+namespace( '_abc' );//valid
+namespace( 'ABC' );//valid but conventionally it is recommended to write the namespaces all in small letters ie: 'abc'
+
 **Note:** if any of the names in the object hierarcy exists but isn't an object, it will be replaced silently with an empty object.
 For example:
 
@@ -63,8 +84,8 @@ namespace( 'com.userpixel.example.hello' ).swedish = function ( str ) {
     return 'Hej ' + str + '!';
 }
 ```
-The reason is simple: all the names in the namespace string must be objects. Just like java, a string like
-`org.userpixel.example.hello` can either be a namespace or a function, not both.
+The reason is simple: all the names in the namespace string must be objects. Just like java, a string like `org.userpixel.example.hello`
+can either be a namespace or a function, not both.
 
 ***
 

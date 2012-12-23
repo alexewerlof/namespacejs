@@ -1,7 +1,12 @@
 /**
- * This function creates a namespace if it doesn't exist or returns one if it already exists.
- * It is very optimized and uses a cache to remember the last namespaces used.
- * Each id in the namespace can contain alphanumeric characters, underline and dollar sign
+ * This function returns a Java-style namespace which is a series of nested objects.
+ * It checks if the objects exist or if they need to be created. Then it returns the innermost object. The result
+ * can be used directly to bind a function or variable to that object. The namespace comprises of one or more valid
+ * Javascript identifiers separated with '.' (dot) character. For example 'abc' and '_abc$', 'a.b.c', 'ab.c4' and 'abc1'
+ * are valid namespace identifiers. But '4c', '%', '_€' and 'abc,def' are invalid namespace identifiers.
+ * For more examples please @see http://www.github.com/hanifbbz/namespacejs/test/test.js
+ * After calling the namespace function, if no exception is thrown, it is guaranteed that the namespace hierarchy exists and
+ * is comprised of objects. For more information @see http://www.github.com/hanifbbz/namespacejs/README.md
  * @throws string: if the nsString is not of type string or an id cannot be identified
  * @return an object that can be used for binding methods
  */
@@ -14,11 +19,6 @@ function namespace ( nsString ) {
     //make sure it is not ran with the new keyword because we need access to the global object
     if ( this instanceof namespace ) {
         throw 'This function is not supposed to be called with the "new" keyword';
-    }
-    //check that the cache exists
-    namespace._cache = namespace._cache || {};
-    if ( namespace._cache[nsString] ) {
-    	return namespace._cache[nsString];
     }
 	//go through the structure of the namespace and make the necessary objects.
     var parts = nsString.split('.');
@@ -43,7 +43,5 @@ function namespace ( nsString ) {
 		//advance in the hierarchy
         currParent = currParent[part];
     }
-    //cache the string and the resulting object
-	namespace._cache[ nsString ] = currParent;
     return currParent;
 }
