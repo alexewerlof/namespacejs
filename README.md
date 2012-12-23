@@ -60,11 +60,28 @@ org.userpisel.test = typeof org.userpixel.test === 'object' ? org.userpixel.test
 ```
 
 To put is simply, the task for namespace() function is to make sure this chain of names exists and is comprised of objects.
-After a call to namespace() function, you can simply use the namespace without needing to call the function again.
+After a call to namespace() function, you can simply use the namespace without needing to call the function again:
+
+```Javascript
+namespace( 'com.userpixel.example1' );
+
+com.userpixel.example1.hello = function ( str ) {
+    return 'Hello ' + str + '!';
+}
+
+com.userpixel.example1.bye = function ( str ) {
+    return 'Goodbye ' + str + '!';
+}
+
+com.userpixel.example1.hello( 'Fredrik' ); //returns 'Hello Fredrik!'
+com.userpixel.example1.bye( 'Fredrik' ); //returns 'Goodbye Fredrik!'
+```
+
 Of course the [actual algorithm][3] is more sophisticated. It parses the string trying
 to find all the identifiers in the namespace and then creates variables for each of them if necessary. Therefore all the
 identifiers of the namespace should be valid in Javascript. For example:
 
+```Javascript
 namespace( '' ); //valid: returns the global object
 namespace( 'a' ); //valid: returns object a in global object
 namespace( 'abc.def' );//valid
@@ -73,6 +90,7 @@ namespace( '&' );//invalid id
 namespace( '$' );//a valid id but keep in mind that it will replace the global $ with an object if it isn't
 namespace( '_abc' );//valid
 namespace( 'ABC' );//valid but conventionally it is recommended to write the namespaces all in small letters ie: 'abc'
+```
 
 **Note:** if any of the names in the object hierarcy exists but isn't an object, it will be replaced silently with an empty object.
 For example:
