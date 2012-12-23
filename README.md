@@ -60,9 +60,11 @@ org.userpixel = typeof org.userpixel === 'object' ? org.userpixel || {}
 org.userpisel.test = typeof org.userpixel.test === 'object' ? org.userpixel.test || {}
 ```
 
-Of course the [actual algorithm](/hanifbbz/namespacejs/src/namespace.js) is more sophisticated. It parses the string trying
+Of course the [actual algorithm][3] is more sophisticated. It parses the string trying
 to find all the identifiers in the namespace and then creates variables for each of them if necessary. Therefore all the
 identifiers of the namespace should be valid in Javascript. For example:
+
+[3]: https://github.com/hanifbbz/namespacejs/blob/master/src/namespace.js
 
 namespace( '' ); //valid: returns the global object
 namespace( 'a' ); //valid: returns object a in global object
@@ -92,4 +94,6 @@ can either be a namespace or a function, not both.
 Tests
 =====
 
-[QUnit](http://www.qunit.com) is used for testing Namespacejs. Please take a look at the [test.js](hanifbbz/namespacejs/test/test.js) file to find out to learn more.
+[QUnit](http://www.qunit.com) is used for testing Namespacejs. Please take a look at the [test.js][4] file to find out to learn more.
+
+[4]: https://github.com/hanifbbz/namespacejs/blob/master/test/test.js
