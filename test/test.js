@@ -1,3 +1,5 @@
+globalObject = ( function () { return this;} )();
+
 test( 'valid identifiers', function() {
     var validIdentifiers = [
         '',
@@ -388,12 +390,12 @@ test( 'invalid identifiers', function () {
 });
 
 test( 'root object in global', function () {
-    if ( 'org' in window ) {
-        delete window.org;
+    if ( 'org' in globalObject ) {
+        delete globalObject.org;
     }
     var org = namespace( 'org' );
-    ok( window.org, 'Defining namespace "org" should create window.a' );
-    ok( typeof window.org === 'object', 'The root object "org" is an object' );
+    ok( globalObject.org, 'Defining namespace "org" should create globalObject.a' );
+    ok( typeof globalObject.org === 'object', 'The root object "org" is an object' );
     deepEqual( namespace._cache[ 'org' ], org, '"org" should be in the cache' );
 });
 

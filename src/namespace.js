@@ -6,7 +6,7 @@
  * @return an object that can be used for binding methods
  */
 function namespace ( nsString ) {
-    "use strict";
+    //"use strict";
 	//nsString should be a string
 	if ( typeof nsString !== 'string' ) {
 		throw 'Namespace must be string but it is: "' + nsString + '"';
