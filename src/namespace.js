@@ -11,13 +11,12 @@
  * @return an object that can be used for binding methods
  */
 function namespace ( nsString, alternativeRoot ) {
-    //"use strict";
 	//nsString should be a string
 	if ( typeof nsString !== 'string' ) {
 		throw 'Namespace must be string but it is: "' + nsString + '"';
 	}
     //make sure it is not ran with the new keyword because we need access to the global object
-    if ( this instanceof namespace ) {
+    if ( ( this !== undefined ) && (this instanceof namespace ) ) {
         throw 'This function is not supposed to be called with the "new" keyword';
     }
 	//go through the structure of the namespace and make the necessary objects.
@@ -32,12 +31,12 @@ function namespace ( nsString, alternativeRoot ) {
             continue;
         }
         //the first character can only be alphabetic, dollar sign or underscore
-        if ( ! /^[a-z\$\_]/i.test( part.charAt(0) ) ) {
+        if ( ! /^[a-z\$_]/i.test( part.charAt(0) ) ) {
             throw 'Identifier should start with a letter, underscore or dollar sign: "' + part + '"';
         }
         //if the above check passed, just check that the id is only comprised of alphanumeric, dollar and underscore characters
-        if ( ! /^[\w\$\_]+$/.test( part ) ) {
-        	throw 'Invalid identifier: "' + part + '"';
+        if ( ! /^[\w\$_]+$/.test( part ) ) {
+            throw 'Invalid identifier: "' + part + '"';
         }
         //so it is a valid id. If there is no such object, create it (even if this variable exists but isn't an object)
         if ( ( typeof currParent[part] !== 'object' ) || ( currParent[part] === null ) ) {

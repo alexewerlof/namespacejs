@@ -1,5 +1,3 @@
-globalObject = ( function () { return this;} )();
-
 test( 'valid identifiers', function() {
     var validIdentifiers = [
         '',
@@ -390,6 +388,7 @@ test( 'invalid identifiers', function () {
 });
 
 test( 'root object in global', function () {
+    var globalObject = ( function () { return this;} )();
     if ( 'org' in globalObject ) {
         delete globalObject.org;
     }
@@ -404,4 +403,31 @@ test( 'example', function () {
     }
 
     equal( com.userpixel.example.hello( 'world' ), 'Hello world!', 'The hello world example works!' );
-})
+});
+
+test( 'examples from github intro', function () {
+    var globalObject = ( function () { return this;} )();
+    if ( 'hello' in globalObject ) {
+        delete globalObject.hello;
+    }
+    namespace( 'com.userpixel.example1' ).hello = function ( str ) {
+        return 'Hello ' + str + '!';
+    }
+
+    namespace( 'com.userpixel.example2' ).hello = function ( str ) {
+        return 'Hej ' + str + '!';
+    }
+
+    deepEqual( com.userpixel.example1.hello( 'world' ), 'Hello world!', 'Calling a function by its namespace (hello)' );
+    deepEqual( com.userpixel.example2.hello( 'värld' ), 'Hej värld!', 'Calling a function by its namespace (hej)' );
+
+    deepEqual( com.userpixel.example1.hello, namespace( 'com.userpixel.example1').hello, 'Namespace returns the global objects')
+    notDeepEqual( com.userpixel.example1.hello, namespace( 'com.userpixel.example2').hello, 'Two different namespaces are not the same' );
+
+    try {
+        hello( 'test' );
+        ok( false, 'there is hello() function in the global object as a side effect!' );
+    } catch ( err ) {
+        ok( true, 'No hello() function is created in global object as a side effect');
+    }
+});
