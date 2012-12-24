@@ -24,6 +24,10 @@ function namespace ( nsString, alternativeRoot ) {
     //the root object is "this" which is the global object because this function is not supposed to be called with "new"
     // or as a part of another object. The user can override it with an alternative root object
     var currParent = typeof alternativeRoot === 'object' ? alternativeRoot : this;
+    //the following error can happen if the namespace() function is running in strict mode or the alternativeRoot is not defined
+    if ( currParent === undefined ) {
+        throw "Can't attach the namespace to something";
+    }
 	//now go through all parts of the namespace and make sure the hierarchy exists
     for ( var i = 0; i < parts.length; i++ ) {
         var part = parts[i];

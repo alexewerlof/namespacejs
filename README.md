@@ -35,12 +35,22 @@ The idea is simple: every namespace is an object. So you can write codes that lo
 
     var hello = com.userpixel.example.hello( 'world' );
 
-For this namespace a series of nested objects are created (if necessary):
+The `com` object is the only part that is defined in global namespace in order to make that intuitive syntax possible.
+The `namespace` function returns an object that can directly be used for attaching a function. For example:
+
+```Javascript
+namespace( 'com.userpixel.example' ).hello = function ( str ) {
+    return 'Hello ' + str + '!';
+}
+```
+
+The `namespace()` function makes sure that `org.userpixel.example` is a valid namespace (a series of nested objects with
+the correct name).
 
 ```Javascript
 var org = {
-    userpixel = {
-        example = {
+    userpixel : {
+        example : {
             hello : function () ( str ) {
                 return 'Hello ' + str + '!';
             }
@@ -59,8 +69,8 @@ org.userpixel = typeof org.userpixel === 'object' ? org.userpixel || {}
 org.userpisel.test = typeof org.userpixel.test === 'object' ? org.userpixel.test || {}
 ```
 
-To put is simply, the task for namespace() function is to make sure this chain of names exists and is comprised of objects.
-After a call to namespace() function, you can simply use the namespace without needing to call the function again:
+To put is simply, the task for namespace() function is to make sure this chain of names exists and is comprised of
+objects. After a call to namespace() function, you can simply use the namespace without needing to call the function again:
 
 ```Javascript
 namespace( 'com.userpixel.example1' );
@@ -92,8 +102,8 @@ namespace( '_abc' );//valid
 namespace( 'ABC' );//valid but conventionally it is recommended to write the namespaces all in small letters ie: 'abc'
 ```
 
-**Note:** if any of the names in the object hierarcy exists but isn't an object, it will be replaced silently with an empty object.
-For example:
+**Note:** if any of the names in the object hierarcy exists but isn't an object, it will be replaced silently with an
+empty object. For example:
 
 ```Javascript
 namespace( 'com.userpixel.example' ).hello = function ( str ) {
@@ -103,10 +113,20 @@ namespace( 'com.userpixel.example.hello' ).swedish = function ( str ) {
     return 'Hej ' + str + '!';
 }
 ```
-The reason is simple: all the names in the namespace string must be objects. Just like java, a string like `org.userpixel.example.hello`
-can either be a namespace or a function, not both.
+The reason is simple: all the names in the namespace string must be objects. Just like java, a string like
+`org.userpixel.example.hello` can either be a namespace or a function, not both.
 
-***
+Without using global object
+===========================
+If you don't want to use the global object, you can pass an alternative root object to be used for the namespace.
+
+```Javascript
+app = {};
+namespace( 'com.userpixel.example', app );
+app.com.userpixel.example.hello = function ( str ) {
+    return 'Hello ' + str + '!';
+}
+```
 
 Tests
 =====
