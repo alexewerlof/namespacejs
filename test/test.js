@@ -396,7 +396,6 @@ test( 'root object in global', function () {
     var org = namespace( 'org' );
     ok( globalObject.org, 'Defining namespace "org" should create globalObject.a' );
     ok( typeof globalObject.org === 'object', 'The root object "org" is an object' );
-    deepEqual( namespace._cache[ 'org' ], org, '"org" should be in the cache' );
 });
 
 test( 'example', function () {
