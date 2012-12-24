@@ -121,11 +121,13 @@ Without using global object
 If you don't want to use the global object, you can pass an alternative root object to be used for the namespace.
 
 ```Javascript
-app = {};
+var app = {};
 namespace( 'com.userpixel.example', app );
 app.com.userpixel.example.hello = function ( str ) {
     return 'Hello ' + str + '!';
 }
+app.com.userpixel.example.hello( 'world' );//works
+com.userpixel.example.hello( 'world' );//throws an exception complaining "com" doesn't exist
 ```
 
 Tests
